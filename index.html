@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>EduTeca - Física II | Grupos con reproductor modal</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f4f9ff 0%, #e9f0fa 100%);
+            color: #1e2a3e;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* header estilo eduteca */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #2c3e66;
+            color: #f9f3e2;
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #2b4a7a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            border-top: 2px solid #cbdbe6;
+            display: inline-block;
+            padding-top: 0.5rem;
+        }
+
+        .course-info {
+            background: rgba(255,255,240,0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+            padding: 0.6rem 1.8rem;
+            margin-top: 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e4663;
+        }
+
+        .course-info span {
+            background: white;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* grid de grupos */
+        .grupos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0 2.5rem;
+        }
+
+        .card {
+            background: #ffffffdd;
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+
+        .card-header {
+            padding: 1.2rem 1.5rem 0.8rem;
+            border-bottom: 3px solid;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .grupo-num {
+            font-size: 2rem;
+            font-weight: 800;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            background: #f0f3f8;
+            color: #1f3a64;
+        }
+
+        .titulo-tema {
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.3;
+            color: #0a2b44;
+        }
+
+        .integrantes {
+            padding: 1rem 1.5rem;
+            background: #f8fafd;
+            border-bottom: 1px solid #e4edf5;
+        }
+
+        .integrantes p {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #4b6a8b;
+            margin-bottom: 8px;
+        }
+
+        .lista-nombres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .nombre {
+            background: white;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            color: #1f4973;
+        }
+
+        .video-preview {
+            padding: 1.2rem 1.5rem 1.5rem;
+            text-align: center;
+        }
+
+        .thumbnail-btn {
+            background: #f0f4fa;
+            border-radius: 24px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s;
+            border: 1px solid #e2edf7;
+            cursor: pointer;
+        }
+
+        .thumbnail-btn i {
+            font-size: 2.2rem;
+            color: #e34234;
+        }
+
+        .thumbnail-btn span {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1f4a7a;
+        }
+
+        .thumbnail-btn:hover {
+            background: #e6eff9;
+            transform: scale(0.98);
+        }
+
+        hr {
+            margin: 0.75rem 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, #cbdde9, transparent);
+        }
+
+        .btn-video-modal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1e3c72;
+            color: white;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            width: 100%;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-video-modal i {
+            font-size: 0.9rem;
+        }
+
+        .btn-video-modal:hover {
+            background: #0f2b4f;
+        }
+
+        /* MODAL ESTILOS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: #111827;
+            border-radius: 2rem;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: #0f172a;
+            color: white;
+            border-bottom: 1px solid #334155;
+        }
+
+        .modal-header h3 {
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #cbd5e1;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #ef4444;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            background: #000000dd;
+        }
+
+        .video-responsive {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .video-responsive iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            background: #0f172a;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #eef3fc;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: #2c5275;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="badge"><i class="fas fa-chalkboard-user"></i>  Aprendizaje colaborativo · Modal interactivo</div>
+        <h1>📚 Física II · EduTeca</h1>
+        <div class="sub">Movimiento Armónico Simple y sus aplicaciones</div>
+        <div class="course-info">
+            <span><i class="fas fa-code-branch"></i> Código: ECN2405</span>
+            <span><i class="fas fa-flask"></i> Sección A</span>
+            <span><i class="fas fa-map-marker-alt"></i> Nacaome · 2026</span>
+            <span><i class="fas fa-users"></i> Grupos de trabajo</span>
+        </div>
+    </div>
+
+    <div class="grupos-grid">
+        <!-- GRUPO 1 : Movimiento armónico simple (M.A.S.) -->
+        <div class="card" data-video-id="E5MjWFiPUfI" data-tema="Movimiento armónico simple (M.A.S.) - Introducción y ecuación de posición">
+            <div class="card-header" style="border-bottom-color: #3b82f6;">
+                <div class="grupo-num" style="background: #d9efff; color:#1e4a76;">1</div>
+                <div class="titulo-tema">⚡ Movimiento armónico simple (M.A.S.)<br><span style="font-size:0.8rem; font-weight:normal;">Introducción y ecuación de posición</span></div>
+            </div>
+            <div class="integrantes">
+                <p><i class="fas fa-user-friends"></i> INTEGRANTES</p>
+                <div class="lista-nombres">
+                    <span class="nombre">Carlos Fabricio Castro Valle</span>
+                    <span class="nombre">Dania Yoseli Cárdenas Rodas</span>
+                    <span class="nombre">Helin Naomy Cárdenas Mejía</span>
+                </div>
+            </div>
+            <div class="video-preview">
+                <div class="thumbnail-btn open-modal-trigger">
+                    <i class="fab fa-youtube"></i>
+                    <span>▶ Reproducir video del grupo</span>
+                </div>
+                <hr>
+                <button class="btn-video-modal open-modal-trigger"><i class="fas fa-play-circle"></i> Ver en pantalla completa (modal)</button>
+                <small style="display:block; margin-top:10px; color:#3d6a97;"><i class="fas fa-lightbulb"></i> Conceptos: elongación, amplitud, pulsación, fase inicial.</small>
+            </div>
+        </div>
+
+        <!-- GRUPO 2 : Energía cinética, potencial y mecánica -->
+        <div class="card" data-video-id="yY2TVTTd8ts" data-tema="Energía cinética, potencial y mecánica en un oscilador armónico simple">
+            <div class="card-header" style="border-bottom-color: #10b981;">
+                <div class="grupo-num" style="background: #e0f2e9; color:#166534;">2</div>
+                <div class="titulo-tema">🔋 Energía cinética, potencial y mecánica<br><span style="font-size:0.8rem; font-weight:normal;">Oscilador armónico simple</span></div>
+            </div>
+            <div class="integrantes">
+                <p><i class="fas fa-user-friends"></i> INTEGRANTES</p>
+                <div class="lista-nombres">
+                    <span class="nombre">Jennifer Melissa Amaya Aguilar</span>
+                    <span class="nombre">Nelsy Sucely Gómez López</span>
+                    <span class="nombre">William Josué Maldonado Quiroz</span>
+                </div>
+            </div>
+            <div class="video-preview">
+                <div class="thumbnail-btn open-modal-trigger">
+                    <i class="fab fa-youtube"></i>
+                    <span>▶ Reproducir video del grupo</span>
+                </div>
+                <hr>
+                <button class="btn-video-modal open-modal-trigger"><i class="fas fa-play-circle"></i> Ver en pantalla completa (modal)</button>
+                <small style="display:block; margin-top:10px; color:#3d6a97;"><i class="fas fa-chart-line"></i> Conservación de la energía, transformaciones E_c ↔ E_p.</small>
+            </div>
+        </div>
+
+        <!-- GRUPO 3 : Relación entre MCU y MAS -->
+        <div class="card" data-video-id="I2MQsL6ypdE" data-tema="Relación entre el MCU y el MAS - Movimiento circular uniforme y Movimiento Armónico Simple">
+            <div class="card-header" style="border-bottom-color: #f59e0b;">
+                <div class="grupo-num" style="background: #fff0dd; color:#b45309;">3</div>
+                <div class="titulo-tema">🔄 Relación entre el MCU y el MAS<br><span style="font-size:0.8rem; font-weight:normal;">Movimiento circular uniforme y Movimiento Armónico Simple</span></div>
+            </div>
+            <div class="integrantes">
+                <p><i class="fas fa-user-friends"></i> INTEGRANTES</p>
+                <div class="lista-nombres">
+                    <span class="nombre">Daniel Alexander Rodríguez Hernández</span>
+                    <span class="nombre">Marianela Martínez Martínez</span>
+                    <span class="nombre">Nolden Avilio Cárdenas Berríos</span>
+                </div>
+            </div>
+            <div class="video-preview">
+                <div class="thumbnail-btn open-modal-trigger">
+                    <i class="fab fa-youtube"></i>
+                    <span>▶ Reproducir video del grupo</span>
+                </div>
+                <hr>
+                <button class="btn-video-modal open-modal-trigger"><i class="fas fa-play-circle"></i> Ver en pantalla completa (modal)</button>
+                <small style="display:block; margin-top:10px; color:#3d6a97;"><i class="fas fa-sync-alt"></i> Proyección del MCU, analogía circular, velocidad y aceleración.</small>
+            </div>
+        </div>
+
+        <!-- GRUPO 4 : El Péndulo Simple -->
+        <div class="card" data-video-id="CcNNuheL9Kg" data-tema="El Péndulo Simple - Dinámica y período">
+            <div class="card-header" style="border-bottom-color: #ec489a;">
+                <div class="grupo-num" style="background: #ffe4f0; color:#9d174d;">4</div>
+                <div class="titulo-tema">⏳ El Péndulo Simple<br><span style="font-size:0.8rem; font-weight:normal;">Dinámica y período</span></div>
+            </div>
+            <div class="integrantes">
+                <p><i class="fas fa-user-friends"></i> INTEGRANTES</p>
+                <div class="lista-nombres">
+                    <span class="nombre">Lizzy Abigail Aguilera Ortiz</span>
+                    <span class="nombre">Edwin Alexander Núñez Berríos</span>
+                    <span class="nombre">Karina Yassely Ortiz Aguilar</span>
+                </div>
+            </div>
+            <div class="video-preview">
+                <div class="thumbnail-btn open-modal-trigger">
+                    <i class="fab fa-youtube"></i>
+                    <span>▶ Reproducir video del grupo</span>
+                </div>
+                <hr>
+                <button class="btn-video-modal open-modal-trigger"><i class="fas fa-play-circle"></i> Ver en pantalla completa (modal)</button>
+                <small style="display:block; margin-top:10px; color:#3d6a97;"><i class="fas fa-microscope"></i> Ley del péndulo, aproximación para pequeñas amplitudes, aplicaciones.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal estructura -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fab fa-youtube" style="color:#ff0000;"></i> <span id="modalTitulo">Reproduciendo video</span></h3>
+                <button class="close-modal" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="video-responsive">
+                    <iframe id="modalIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <i class="fas fa-info-circle"></i> Video del grupo asignado · Reproducción en ventana emergente | Clic fuera o presiona ESC para cerrar
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <i class="fas fa-check-circle" style="color:#2b7e3a;"></i> 
+        <strong>Distribución oficial de grupos</strong> — se respetaron todas las condiciones solicitadas (parejas separadas: Edwin-Nolden, Nelsy-Helin, Lizzy-Daniel, Karina-William, Carlos-Jennifer, Nolden-Jennifer, Nelsy-Edwin).  
+        <br>📌 Douglas Jose Andino Santos fue excluido según indicación.  
+        <br><i class="fas fa-expand-alt"></i> <strong>Nuevo:</strong> Al hacer clic en "Reproducir video" o en el botón de cada grupo, el video se abre en un modal centrado sobre la página, sin redirigir.  
+        <br><span style="font-size:0.75rem; margin-top:8px; display:block;"><i class="fas fa-graduation-cap"></i> EduTeca Física II · Trabajo colaborativo · Modal interactivo · 2026</span>
+    </div>
+</div>
+
+<script>
+    // Obtener elementos del DOM
+    const modal = document.getElementById('videoModal');
+    const modalIframe = document.getElementById('modalIframe');
+    const modalTitulo = document.getElementById('modalTitulo');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    // Función para abrir modal con video específico
+    function openModal(videoId, titulo) {
+        // Construir URL de YouTube con parámetros para mejor experiencia: autoplay=1, modestbranding, etc.
+        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&controls=1&fs=1`;
+        modalIframe.src = embedUrl;
+        modalTitulo.innerText = titulo.length > 70 ? titulo.substring(0, 70) + '…' : titulo;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Evita scroll detrás del modal
+    }
+
+    // Función para cerrar modal y detener video
+    function closeModal() {
+        modal.style.display = 'none';
+        // Detener video eliminando src y restaurando después para que se detenga la reproducción
+        modalIframe.src = '';
+        document.body.style.overflow = '';
+    }
+
+    // Asignar evento a todos los elementos que activan el modal (clase open-modal-trigger)
+    const triggers = document.querySelectorAll('.open-modal-trigger');
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Buscar la card padre más cercana (con data-video-id)
+            const card = trigger.closest('.card');
+            if (card) {
+                const videoId = card.getAttribute('data-video-id');
+                const temaRaw = card.getAttribute('data-tema');
+                let tituloCompleto = temaRaw || `Grupo ${card.querySelector('.grupo-num')?.innerText || ''} - Video Física II`;
+                if (!temaRaw) {
+                    // fallback: extraer del header
+                    const headerTema = card.querySelector('.titulo-tema')?.innerText.replace(/\n/g, ' ').trim();
+                    tituloCompleto = headerTema || 'Recurso audiovisual MAS';
+                }
+                if (videoId) {
+                    openModal(videoId, tituloCompleto);
+                } else {
+                    console.warn('No se encontró data-video-id en la tarjeta');
+                    // por si acaso, fallback pero los cards tienen data correcta
+                }
+            } else {
+                // En caso de que no exista card, intentar obtener info de alguna forma alternativa (no debería pasar)
+                console.warn('No se encontró contenedor .card');
+            }
+        });
+    });
+
+    // Cerrar modal con botón X
+    closeModalBtn.addEventListener('click', closeModal);
+
+    // Cerrar modal al hacer clic fuera del contenido (fondo)
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Cerrar modal con tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeModal();
+        }
+    });
+
+    // Prevenir que el clic dentro del modal-content cierre el modal accidentalmente
+    const modalContent = document.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    // Asignación correcta de data-video-id y data-tema a cada card (asegurado)
+    // Inicialmente ya están en el HTML, pero para mayor robustez se define de nuevo desde js con la info.
+    // Los grupos ya tienen los ids correctos: 
+    // Grupo1: E5MjWFiPUfI, Grupo2: yY2TVTTd8ts, Grupo3: I2MQsL6ypdE, Grupo4: CcNNuheL9Kg
+    // y los temas correspondientes.
+    // Solo por consistencia agregamos si alguno faltara (no es necesario pero seguro)
+    const cards = document.querySelectorAll('.card');
+    const videosMap = {
+        1: { id: 'E5MjWFiPUfI', tema: 'Movimiento armónico simple (M.A.S.). Introducción y ecuación de posición' },
+        2: { id: 'yY2TVTTd8ts', tema: 'Energía cinética, potencial y mecánica en un oscilador armónico simple' },
+        3: { id: 'I2MQsL6ypdE', tema: 'Relación entre el MCU y el MAS - Movimiento circular uniforme y Movimiento Armónico Simple' },
+        4: { id: 'CcNNuheL9Kg', tema: 'El Péndulo Simple' }
+    };
+    cards.forEach((card, idx) => {
+        const grupoNumElem = card.querySelector('.grupo-num');
+        let grupoNumber = idx + 1;
+        if (grupoNumElem) {
+            const textoNum = grupoNumElem.innerText.trim();
+            if (!isNaN(parseInt(textoNum))) grupoNumber = parseInt(textoNum);
+        }
+        if (videosMap[grupoNumber]) {
+            if (!card.getAttribute('data-video-id')) {
+                card.setAttribute('data-video-id', videosMap[grupoNumber].id);
+            }
+            if (!card.getAttribute('data-tema')) {
+                card.setAttribute('data-tema', videosMap[grupoNumber].tema);
+            }
+        }
+    });
+</script>
+</body>
+</html>
